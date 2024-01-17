@@ -16,9 +16,10 @@ helper.on('line', (data) => {
 });
 
 process.on('SIGINT', () => {
-  console.log('See you soon!🐬');
   helper.close();
   stream.end();
+  process.exit();
 });
-
-process.exit();
+process.on('exit', () => {
+  console.log('See you soon!🐬');
+});
