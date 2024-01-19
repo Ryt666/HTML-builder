@@ -1,34 +1,38 @@
-const fs = require('fs/promises');
+const fs = require('fs').promises;
 const path = require('path');
 
 const folderPath = path.join(__dirname, 'secret-folder');
 
-fs.readdir(folderPath, { withFileTypes: true }, (files, error) => {
-  if (error) {
-    console.log('ERROR WHEN READ FOLDER', error);
-    return 0;
-  }
-
-  files.array.forEach((file) => {
-    const filePath = path.join(folderPath, file.name);
-
-    if (file.isFile()) {
-      fs.stat(filePath, (error) => {
-        if (error) {
-          console.log(`ERROR WHEN STAT IN FILE ${file.name}:`, error);
-          return 0;
+async function readFolderContents(folderPath) {
+    try {
+      // Чтение содержимого папки
+      const files = await fs.readdir(folderPath, { withFileTypes: true });
+  
+      // Обход каждого объекта в папке
+      for (const file of files) {
+        const filePath = path.join(folderPath, file.name);
+  
+        // Проверка, является ли объект файлом
+        if (file.isFile()) {
+          // Используйте stat для получения информации о файле
+          const stats = await fs.stat(filePath);
+  
+          // Вывод информации о файле
+          console.log(`Имя файла: ${file.name}`);
+          console.log(`Расширение файла: ${path.extname(file.name)}`);
+          console.log(`Размер файла: ${stats.size} байт`);
+          console.log(`Является ли файлом: ${stats.isFile()}`);
+          console.log(`Дата последнего изменения: ${stats.mtime}`);
+          console.log('--------------------------');
         }
-        console.log(`${file.name} CONTENTS : `);
-
-        fs.readFile(filePath, (data, error) => {
-          if (error) {
-            console.log(`ERROR WHEN READ FILE ${file.name}:`, error);
-          }
-          console.log(data);
-        });
-      });
-    } else {
-      console.log(`FILE ${file.name} IS NOT FILE`);
+      }
+    } catch (err) {
+      console.error('Ошибка чтения папки:', err);
     }
-  });
-});
+  }
+  
+  // Указание пути к папке для чтения
+  const folderPath = '/путь/к/вашей/целевой/папке';
+  
+  // Вызов функции для чтения содержимого папки
+  readFolderContents(folderPath);
