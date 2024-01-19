@@ -3,7 +3,7 @@ const path = require('path');
 const readLine = require('readline');
 
 const filePath = path.join(__dirname, 'text.txt');
-
+console.log('Hello,friend! Are you ready? You can write what you want!');
 const stream = fs.createWriteStream(filePath, { flags: 'a' });
 
 const helper = readLine.createInterface({

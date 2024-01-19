@@ -16,6 +16,7 @@ async function readFolderContents(folderPath) {
   
         
           console.log(`${file.name}-${path.extname(file.name)}-${stats.size}kb`);
+          //console.log(`Is it file?: ${stats.isFile()}`);
         }
       }
     } catch (error) {
