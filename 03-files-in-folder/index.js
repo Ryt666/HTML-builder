@@ -12,8 +12,8 @@ async function readFolderContents(folderPath) {
 
       if (file.isFile()) {
         const stats = await fs.stat(filePath);
-
-        console.log(`${file.name}-${path.extname(file.name)}-${stats.size}kb`);
+        const fileNameWithoutExt = path.parse(file.name).name;
+        console.log(`${fileNameWithoutExt}-${path.extname(file.name)}-${stats.size / 1024}kb`);
         //console.log(`Is it file?: ${stats.isFile()}`);
       }
     }
