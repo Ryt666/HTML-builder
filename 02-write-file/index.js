@@ -23,3 +23,16 @@ process.on('SIGINT', () => {
 process.on('exit', () => {
   console.log('See you soon!🐬');
 });
+
+function processInput(input) {
+  if (input.toLowerCase() === 'exit') {
+    helper.close();
+    stream.end();
+    process.exit();
+  }
+
+  stream.write(input + '\n');
+
+  helper.question('', processInput);
+}
+helper.question('', processInput);
